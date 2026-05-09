@@ -2,11 +2,11 @@ name: Hot News Crawler
 
 on:
   schedule:
-    - cron: '0 8,20 * * *'  # 每天8:00和20:00自动执行
-  workflow_dispatch:  # 允许手动触发
+    - cron: '0 8,20 * * *'
+  workflow_dispatch:
 
 permissions:
-  contents: write  # 允许工作流修改仓库文件（生成output文件夹）
+  contents: write  # 允许工作流修改仓库文件
 
 jobs:
   crawl:
@@ -30,13 +30,6 @@ jobs:
 
       - name: 运行爬虫
         run: python main.py
-
-      - name: 上传结果到仓库
-        uses: crazy-max/ghaction-import-gpg@v6
-        with:
-          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-          passphrase: ${{ secrets.GPG_PASSPHRASE }}
-        continue-on-error: true
 
       - name: 提交并推送结果
         run: |
